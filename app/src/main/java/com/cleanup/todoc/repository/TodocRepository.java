@@ -1,10 +1,10 @@
 package com.cleanup.todoc.repository;
 
-import com.cleanup.todoc.database.DAO.DAOProjectService;
 import com.cleanup.todoc.database.DAO.ProjectDAO;
-import com.cleanup.todoc.database.DAO.ProjectService;
 import com.cleanup.todoc.database.DAO.TaskDAO;
+import com.cleanup.todoc.model.Task;
 
+import java.util.List;
 
 /**
  * @author khalid
@@ -14,26 +14,53 @@ public class TodocRepository {
     private final ProjectDAO projectDAO;
     private final TaskDAO taskDAO;
 
+
+//  ??????????????????????????????
+
+//     /**
+//     * Get an instance on @{@link ProjectDAO  TaskDAO}
+//     * @return
+//     */
     public TodocRepository(ProjectDAO projectDAO, TaskDAO taskDAO) {
         this.projectDAO = projectDAO;
         this.taskDAO = taskDAO;
     }
 
 
-//     /**
-//     * Get an instance on @{@link MeetingApiService}
-//     * @return
-//     */
+//  ??????????????????????????????
 
     /**
-     * Get always a new instance on @{@link ProjectService}. Useful for tests, so we ensure the context is clean.
+     * Get always a new instance on @{@link ProjectDAO  TaskDAO}. Useful for tests, so we ensure the context is clean.
      * @return
      */
-    public static ProjectService getNewInstanceService() {
-        return new DAOProjectService();
+
+
+
+    //  Comment récupérer le projectId  ????????????????????
+    public List<Task> getTasks(long projectId) {
+        //return (List<Task>) taskDAO.getTasks(projectId);
+        return (List<Task>) taskDAO.getTasks(1);
     }
 
-//    public List <Meeting> getMeetings() {
+
+
+
+
+//    public void deleteTask(long taskId) {
+//        taskDAO.deleteTask(taskId);
+//    }
+    public int deleteTask(long taskId) {
+        return taskDAO.deleteTask(taskId);
+    }
+
+
+
+
+
+
+
+
+    //    public List <Meeting> getMeetings() {
 //        List<Meeting> meetingList = service.getMeetings();
 //        return meetingList;
 //    }
