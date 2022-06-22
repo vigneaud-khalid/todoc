@@ -31,13 +31,22 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
 
     def lifecycle_version = "2.5.0-rc01"
-    def arch_version = "2.1.0"
+//    def arch_version = "2.1.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    // ViewModel utilities for Compose
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+
+    //ROOM
+    implementation "androidx.room:room-runtime:2.3.0"
+    annotationProcessor "androidx.room:room-compiler:2.3.0"
+
+    // to be erased
+    //VIEW MODEL & LIVE DATA
+    // implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // TESTING
+    androidTestImplementation 'androidx.arch.core:core-testing:2.1.0'
 }
