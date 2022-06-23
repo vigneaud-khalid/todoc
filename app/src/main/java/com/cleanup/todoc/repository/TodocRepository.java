@@ -1,7 +1,10 @@
 package com.cleanup.todoc.repository;
 
+import androidx.lifecycle.LiveData;
+
 import com.cleanup.todoc.database.DAO.ProjectDAO;
 import com.cleanup.todoc.database.DAO.TaskDAO;
+import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import java.util.List;
@@ -34,25 +37,26 @@ public class TodocRepository {
      * @return
      */
 
-
-
+    // --- GET PROJECT ---
     //  Comment récupérer le projectId  ????????????????????
-    public List<Task> getTasks(long projectId) {
+    public LiveData<Project> getProject(long projectId) { return this.projectDAO.getProject(projectId); }
+
+    // --- GET TASK ---
+    //  Comment récupérer le projectId  ????????????????????
+    public LiveData<List<Task>> getTasks(long projectId) { return this.taskDAO.getTasks(projectId); }
+    //public List<Task> getTasks(long projectId) {
         //return (List<Task>) taskDAO.getTasks(projectId);
-        return (List<Task>) taskDAO.getTasks(1);
-    }
+    //    return (List<Task>) taskDAO.getTasks(1);
+    //}
 
+    // --- CREATE ---
+    public void createTask(Task task){ taskDAO.insertTask(task); }
 
+    // --- DELETE ---
+    public void deleteTask(long taskId) { taskDAO.deleteTask(taskId); }
 
-
-
-//    public void deleteTask(long taskId) {
-//        taskDAO.deleteTask(taskId);
-//    }
-    public int deleteTask(long taskId) {
-        return taskDAO.deleteTask(taskId);
-    }
-
+    // --- UPDATE ---
+    public void updateTask(Task task){ taskDAO.updateTask(task); }
 
 
 

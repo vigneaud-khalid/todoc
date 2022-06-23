@@ -27,12 +27,13 @@ public interface TaskDAO {
     // Cursor getTasksWithCursor(long projectId);
 
     @Insert
-    long insertTask(Task task);
+//    long insertTask(Task task);
+    public void insertTask(Task task);
 
     @Update
-    int updateItem(Task task);
+    public void updateTask(Task task);
 
     @Query("DELETE FROM Task WHERE id = :taskId")
-    int deleteTask(long taskId);
+    public void deleteTask(long taskId);
 
 }

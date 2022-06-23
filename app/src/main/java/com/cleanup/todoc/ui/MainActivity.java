@@ -19,13 +19,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
+import com.cleanup.todoc.di.DI;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
+import com.cleanup.todoc.repository.TodocRepository;
 import com.cleanup.todoc.viewmodel.TaskViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.concurrent.Executor;
 
 /**
  * <p>Home activity of the application which is displayed when the user opens the app.</p>
@@ -35,8 +38,21 @@ import java.util.Date;
  */
 public class MainActivity extends AppCompatActivity implements TasksAdapter.DeleteTaskListener {
 
-    //   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    TaskViewModel taskViewModel = new TaskViewModel();
+//    private TodocRepository todocRepository = DI.getTodocRepository(this);
+//    Executor executor = new Executor() {
+//        @Override
+//        public void execute(Runnable runnable) {
+//            //   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//        }
+//    };
+//    TaskViewModel taskViewModel = new TaskViewModel(todocRepository,);
+
+
+    private TaskViewModel taskViewModel;
+    private TasksAdapter tasksAdapter;
+    private static final int PROJECT_ID = 1;
+
+
 
     /**
      * List of all projects available in the application
@@ -94,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @NonNull
     private TextView lblNoTasks;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +129,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 showAddTaskDialog();
             }
         });
+
+        ////////////////////////////////////////////////////////////////////////:
+
+        //  Configure view (with recyclerview) & ViewModel
+
+        configureViewModel();
+
+        initView();
+
+        // 9 - Get current user and items from Database
+
+        getCurrentUser();
+
+        getItems();
+
+
     }
 
     @Override
@@ -146,9 +179,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 //    }
 
     //   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void onDeleteTask(Task task) {
-        taskViewModel.deleteTask(task.getId());
-    }
+//    public void onDeleteTask(Task task) {
+//        taskViewModel.deleteTask(task.getId());
+//    }
 
     /**
      * Called when the user clicks on the positive button of the Create Task Dialog.
