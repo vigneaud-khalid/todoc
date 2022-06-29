@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         configureViewModel();
 
         initView();
-
+        //
         //  Get current Project and tasks from Database
         getCurrentProject();
         getTasks();
