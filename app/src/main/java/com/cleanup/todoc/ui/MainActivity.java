@@ -15,11 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cleanup.todoc.R;
 import com.cleanup.todoc.di.DI;
+import com.cleanup.todoc.injections.ViewModelFactory;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 import com.cleanup.todoc.repository.TodocRepository;
@@ -28,6 +31,7 @@ import com.cleanup.todoc.viewmodel.TaskViewModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -133,16 +137,13 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         ////////////////////////////////////////////////////////////////////////:
 
         //  Configure view (with recyclerview) & ViewModel
-
         configureViewModel();
 
         initView();
 
-        // 9 - Get current user and items from Database
-
-        getCurrentUser();
-
-        getItems();
+        //  Get current Project and tasks from Database
+        getCurrentProject();
+        getTasks();
 
 
     }
@@ -364,4 +365,80 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
          */
         NONE
     }
+
+
+
+    /////////////////////////////////////////////////////////////////////
+    // DATA
+
+    // -------------------
+
+    // 2 - Configuring ViewModel
+    private void configureViewModel() {
+        this.taskViewModel = new ViewModelProvider(this, ViewModelFactory.getInstance(this)).get(TaskViewModel.class);
+        this.taskViewModel.init(PROJECT_ID);
+    }
+
+    //  Get Current Project
+    private void getCurrentProject() {
+        LiveData<Project> projectLiveData = taskViewModel.getProject();
+        if (projectLiveData != null) {
+            projectLiveData.observe(this, this::updateView);
+        }
+    }
+
+    //  Get all tasks for a project
+    private void getTasks() {
+        this.taskViewModel.getTasks(PROJECT_ID).observe(this, this::updateTasksList);
+    }
+
+    //  Create a new task
+
+    private void createTask() {
+        taskViewModel.createTask(binding.MainActivityEditText.getText().toString(), binding.MainActivitySpinner.getSelectedTaskPosition(), PROJECT_ID);
+        binding.MainActivityEditText.setText("");
+    }
+
+    // 3 - Delete a task
+    private void deleteTask(Task task) {
+        this.taskViewModel.deleteTask(task.getId());
+    }
+
+    //  Update a task (selected or not)
+    private void updateItem(Task task) {
+        //task.setSelected(!task.getSelected());
+        this.taskViewModel.updateTask(task);
+    }
+
+
+    // UI
+    private void initView() {
+        // Create a task after click on button
+//        binding.MainActivityButtonAdd.setOnClickListener(view -> {
+//            createTask();
+//       });
+    }
+
+    // 4 - Configure RecyclerView
+
+    private void configureRecyclerView() {
+        this.tasksAdapter = new TasksAdapter(this.task);
+        binding.MainActivityRecyclerView.setAdapter(this.adapter);
+        binding.MainActivityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    // 5 - Update view (username & picture)
+
+    private void updateView(Project project) {
+        if (project == null) return;
+        binding.todoListActivityHeaderProfileText.setText(project.getProjectname());
+        Glide.with(this).load(project.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(binding.todoListActivityHeaderProfileImage);
+
+    }
+
+    //  Update the list of tasks
+    private void updateTasksList(List<Task> tasks) {
+        this.tasksAdapter.updateData(tasks);
+    }
+
 }
