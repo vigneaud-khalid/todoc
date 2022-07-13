@@ -8,6 +8,8 @@ import androidx.room.Query;
 
 import com.cleanup.todoc.model.Project;
 
+import java.util.List;
+
 /**
  * @author khalid
  */
@@ -19,5 +21,8 @@ public interface ProjectDAO {
 
     @Query("SELECT * FROM Project WHERE id = :projectId")
     LiveData<Project> getProject(long projectId);
+
+    @Query("SELECT * FROM Project")
+    LiveData<List<Project>> getProjects();
 
 }

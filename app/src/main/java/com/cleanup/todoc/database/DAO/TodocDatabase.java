@@ -46,7 +46,9 @@ public abstract class TodocDatabase extends RoomDatabase {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(1, "khalidu", 2)));
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(1, "DB", 1)));
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(2, "SQLite", 2)));
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(3, "myApp", 3)));
             }
         };
     }

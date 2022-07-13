@@ -1,12 +1,14 @@
 package com.cleanup.todoc.ui;
 
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +31,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     private List<Task> tasks;
 
     /**
+     * The list of projects the adapter deals with
+     */
+    @NonNull
+    private List<Project> projects;
+
+    /**
      * The listener for when a task needs to be deleted
      */
     @NonNull
@@ -37,11 +45,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     /**
      * Instantiates a new TasksAdapter.
      *
-     * @param tasks the list of tasks the adapter deals with to set
      */
-    TasksAdapter(@NonNull final List<Task> tasks, @NonNull final DeleteTaskListener deleteTaskListener) {
-        this.tasks = tasks;
+    TasksAdapter(List<Task> listTask, List<Project> listProjects, @NonNull final DeleteTaskListener deleteTaskListener) {
         this.deleteTaskListener = deleteTaskListener;
+        this.tasks = listTask;
+        this.projects = listProjects;
     }
 
     /**
@@ -54,6 +62,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         notifyDataSetChanged();
     }
 
+    /**
+     * Updates the list of projects the adapter deals with.
+     *
+     * @param projects the list of projects the adapter deals with to set
+     */
+    //  USELESS ???????????????     :      NEVER CHANGE !!!!
+    void updateProjects(@NonNull final List<Project> projects) {
+        this.projects = projects;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
@@ -61,6 +79,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         return new TaskViewHolder(view, deleteTaskListener);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder taskViewHolder, int position) {
         taskViewHolder.bind(tasks.get(position));
@@ -146,17 +165,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
          *
          * @param task the task to bind in the item view
          */
+        @RequiresApi(api = Build.VERSION_CODES.N)
         void bind(Task task) {
             lblTaskName.setText(task.getName());
             imgDelete.setTag(task);
 
-            final Project taskProject = task.getProject();
+            Project taskProject = projects.stream().filter(project -> project.getId() == task.getProjectId()).findFirst().orElse(projects.get(2));
+
             if (taskProject != null) {
                 imgProject.setSupportImageTintList(ColorStateList.valueOf(taskProject.getColor()));
                 lblProjectName.setText(taskProject.getName());
             } else {
                 imgProject.setVisibility(View.INVISIBLE);
-                lblProjectName.setText("");
+                lblProjectName.setText("no project defined");
             }
 
         }

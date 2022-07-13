@@ -40,10 +40,15 @@ public class TodocRepository {
     // --- GET PROJECT ---
     //  Comment récupérer le projectId  ????????????????????
     public LiveData<Project> getProject(long projectId) { return this.projectDAO.getProject(projectId); }
+    public LiveData<List<Project>> getProjects() { return this.projectDAO.getProjects(); }
 
     // --- GET TASK ---
     //  Comment récupérer le projectId  ????????????????????
     public LiveData<List<Task>> getTasks(long projectId) { return this.taskDAO.getTasks(projectId); }
+
+    public LiveData<List<Task>> getAllTasks() { return this.taskDAO.getAllTasks(); }
+
+
     //public List<Task> getTasks(long projectId) {
         //return (List<Task>) taskDAO.getTasks(projectId);
     //    return (List<Task>) taskDAO.getTasks(1);
@@ -57,6 +62,10 @@ public class TodocRepository {
 
     // --- UPDATE ---
     public void updateTask(Task task){ taskDAO.updateTask(task); }
+
+
+    // --- ADD ---
+    public void addTask(Task task){ taskDAO.insertTask(task); }
 
 
 

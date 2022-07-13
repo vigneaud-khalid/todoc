@@ -23,6 +23,9 @@ public interface TaskDAO {
     @Query("SELECT * FROM Task WHERE projectId = :projectId")
     LiveData<List<Task>> getTasks(long projectId);
 
+    @Query("SELECT * FROM Task")
+    LiveData<List<Task>> getAllTasks();
+
     // @Query("SELECT * FROM Task WHERE projectId = :projectId")
     // Cursor getTasksWithCursor(long projectId);
 

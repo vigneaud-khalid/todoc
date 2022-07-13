@@ -26,28 +26,28 @@ public class TaskViewModel extends ViewModel {
 // initialisation via la DI
     private TodocRepository todocRepository;
     private final Executor executor;
-
-    // DATA
-    @Nullable
-    private LiveData<Project> currentProject;
+    private LiveData<List<Project>> projectsLiveData;
+    private LiveData<List<Task>> tasksLiveData;
 
     public TaskViewModel(TodocRepository todocRepository, Executor executor) {
         this.todocRepository = todocRepository;
         this.executor = executor;
+        projectsLiveData = todocRepository.getProjects();
+        tasksLiveData = todocRepository.getAllTasks();
+
     }
 
-    public void init(long projectId) {
-        if (this.currentProject != null) {
-            return;
-        }
-        currentProject = todocRepository.getProject(projectId);
+    public LiveData<List<Project>> getProjectsLiveData() { return projectsLiveData;  }
+
+    public LiveData<List<Task>> getTasksLiveData() {
+        return tasksLiveData;
     }
 
-    // FOR PROJECT
-    public LiveData<Project> getProject() { return this.currentProject;  }
+    // FOR TASK IN A PROJECT
+    public LiveData<List<Task>> getTasksAProject(long projectId) { return todocRepository.getTasks(projectId); }
 
-    // FOR TASK
-    public LiveData<List<Task>> getTasks(long projectId) { return todocRepository.getTasks(projectId); }
+    // FOR All TASKs
+    public LiveData<List<Task>> getAllTasks() { return todocRepository.getAllTasks(); }
 
     public void createTask(long id, long projectId, String name, long creationTimestamp) {
         executor.execute(() -> todocRepository.createTask(new Task(id, projectId, name, creationTimestamp))); }
@@ -55,5 +55,7 @@ public class TaskViewModel extends ViewModel {
     public void deleteTask(long taskId) { executor.execute(() -> todocRepository.deleteTask(taskId)); }
 
     public void updateTask(Task task) { executor.execute(() -> todocRepository.updateTask(task)); }
+
+    public void addTask(Task task) { executor.execute(() -> todocRepository.addTask(task)); }
 
 }
