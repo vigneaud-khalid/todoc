@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * List of all current tasks of the application
      */
     @NonNull
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     /**
      * The adapter which handles the list of tasks
@@ -376,9 +376,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     }
 
     //  Get all tasks for a project
-    private void getTasks() {
-        this.taskViewModel.getTasksAProject(PROJECT_ID).observe(this, this::updateTasksList);
-    }
+//    private void getTasks() {
+//        this.taskViewModel.getTasksAProject(PROJECT_ID).observe(this, this::updateTasksList);
+//    }
 
     //  Create a new task
 
@@ -422,15 +422,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     //  Update the list of tasks
     private void updateTasksList(List<Task> tasks) {
         if(tasks !=null) {
-            this.adapter.updateTasks(tasks);
+            this.tasks = new ArrayList<>(tasks);
+            updateTasks();
+        }
+    }
+
+    private void updateProjectsList(List<Project> projects){
+        if(projects !=null) {
+            this.adapter.updateProjects(projects);
         }
     }
 
     private void observeData(){
         taskViewModel.getProjectsLiveData().observe(this,allProjects -> {
             projects = allProjects;
+            updateProjectsList(projects);
         });
-        Log.d("XXXXX", "projects : "+projects);
         taskViewModel.getTasksLiveData().observe(this, tasks -> {
             updateTasksList(tasks);
         });

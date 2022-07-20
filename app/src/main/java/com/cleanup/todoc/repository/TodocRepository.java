@@ -7,6 +7,8 @@ import com.cleanup.todoc.database.DAO.TaskDAO;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
+
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,7 +48,7 @@ public class TodocRepository {
     //  Comment récupérer le projectId  ????????????????????
     public LiveData<List<Task>> getTasks(long projectId) { return this.taskDAO.getTasks(projectId); }
 
-    public LiveData<List<Task>> getAllTasks() { return this.taskDAO.getAllTasks(); }
+    public LiveData<List<Task>> getAllTasks() {   return this.taskDAO.getAllTasks();   }
 
 
     //public List<Task> getTasks(long projectId) {

@@ -67,7 +67,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
      *
      * @param projects the list of projects the adapter deals with to set
      */
-    //  USELESS ???????????????     :      NEVER CHANGE !!!!
+
     void updateProjects(@NonNull final List<Project> projects) {
         this.projects = projects;
         notifyDataSetChanged();
@@ -170,7 +170,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             lblTaskName.setText(task.getName());
             imgDelete.setTag(task);
 
-            Project taskProject = projects.stream().filter(project -> project.getId() == task.getProjectId()).findFirst().orElse(projects.get(2));
+            Project taskProject = projects.stream().filter(project -> project.getId() == task.getProjectId()).findFirst().orElse(null);
 
             if (taskProject != null) {
                 imgProject.setSupportImageTintList(ColorStateList.valueOf(taskProject.getColor()));

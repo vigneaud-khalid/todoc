@@ -12,6 +12,7 @@ import androidx.room.Update;
 import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,6 @@ public interface TaskDAO {
 
     @Query("SELECT * FROM Task WHERE projectId = :projectId")
     LiveData<List<Task>> getTasks(long projectId);
-
     @Query("SELECT * FROM Task")
     LiveData<List<Task>> getAllTasks();
 
