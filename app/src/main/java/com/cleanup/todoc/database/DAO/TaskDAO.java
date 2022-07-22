@@ -21,6 +21,10 @@ import java.util.List;
 @Dao
 public interface TaskDAO {
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void createTask(Task task);
+
+
     @Query("SELECT * FROM Task WHERE projectId = :projectId")
     LiveData<List<Task>> getTasks(long projectId);
     @Query("SELECT * FROM Task")

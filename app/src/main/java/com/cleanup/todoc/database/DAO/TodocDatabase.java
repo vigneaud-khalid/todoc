@@ -50,6 +50,14 @@ public abstract class TodocDatabase extends RoomDatabase {
                 Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(2, "SQLite", 0xFFEADAD1)));
                 Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(3, "myApp", 0xFFA3CED2)));
                 Executors.newSingleThreadExecutor().execute(() -> INSTANCE.projectDao().createProject(new Project(4, "towardsAI", 0xFFA3A3CE)));
+
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(1, 1, "jkl", 2320)));
+//                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(2, 2, "et534", 6538)));
+//                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(3, 3, "Gazprom", 3785)));
+//                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(4, 1, "NZairlines", 9877)));
+//                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(5, 4, "Cyborg2028", 9850)));
+//                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(6, 3, "mopuk", 6475)));
+                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(7, 2, "VenezuelaOil", 843)));
             }
         };
     }
